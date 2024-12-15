@@ -1,19 +1,58 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
+
+import DAOAPP.ConexionAPP;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author allan
  */
-public class frmPacienteAPP extends javax.swing.JPanel {
+public class frmPacienteAP extends javax.swing.JFrame {
+    public void InsertPaciente(){
+         
+        ConexionAPP conn = new ConexionAPP ("examenparcialiii");
+        Connection con = null;
+        PreparedStatement ps = null;
+        String query = "INSERT INTO pacientes (Name, Age, Direction, Phone, Record, Disease ) VALUES (?, ?, ?, ?, ? ,?)";
+        
+        try {
+            con = conn.getConexion();
+            ps = con.prepareStatement(query);
+            
+            ps.setString(1,txtNombreAPP.getText().trim());
+            ps.setString(2,txtEdadAPP.getText().trim());
+            ps.setString(3,txtDireccionAPP.getText().trim());
+            ps.setString(4,txtTelefonoAPP.getText().trim());
+            ps.setString(5,txtNumHisAPP.getText().trim());
+            ps.setString(6,txtEnfermedadAPP.getText().trim());
+
+            
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null,"!Paciente Agregado Exitosamente!.");
+            
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close(); 
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
-     * Creates new form frmPacienteAPP
+     * Creates new form frmPacienteAP
      */
-    public frmPacienteAPP() {
+    public frmPacienteAP() {
         initComponents();
     }
 
@@ -37,12 +76,14 @@ public class frmPacienteAPP extends javax.swing.JPanel {
         txtNombreAPP = new javax.swing.JTextField();
         txtEdadAPP = new javax.swing.JTextField();
         txtDireccionAPP = new javax.swing.JTextField();
-        txtTelefono = new javax.swing.JTextField();
+        txtTelefonoAPP = new javax.swing.JTextField();
         txtNumHisAPP = new javax.swing.JTextField();
         txtEnfermedadAPP = new javax.swing.JTextField();
         btnCancelarAPP = new javax.swing.JButton();
         btnGuardarAPP = new javax.swing.JButton();
         btmMostrarAPP = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setForeground(java.awt.Color.lightGray);
 
@@ -69,8 +110,18 @@ public class frmPacienteAPP extends javax.swing.JPanel {
         jLabel7.setText("Enfermedad");
 
         btnCancelarAPP.setText("Cancelar");
+        btnCancelarAPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarAPPActionPerformed(evt);
+            }
+        });
 
         btnGuardarAPP.setText("Guardar");
+        btnGuardarAPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarAPPActionPerformed(evt);
+            }
+        });
 
         btmMostrarAPP.setText("Mostrar");
 
@@ -97,7 +148,7 @@ public class frmPacienteAPP extends javax.swing.JPanel {
                                     .addComponent(txtNombreAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEdadAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtDireccionAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTelefonoAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNumHisAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEnfermedadAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -130,7 +181,7 @@ public class frmPacienteAPP extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefonoAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -147,8 +198,8 @@ public class frmPacienteAPP extends javax.swing.JPanel {
                 .addContainerGap(47, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -159,8 +210,54 @@ public class frmPacienteAPP extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnCancelarAPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarAPPActionPerformed
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarAPPActionPerformed
+
+    private void btnGuardarAPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAPPActionPerformed
+        InsertPaciente();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarAPPActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(frmPacienteAP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(frmPacienteAP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(frmPacienteAP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(frmPacienteAP.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new frmPacienteAP().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btmMostrarAPP;
@@ -179,6 +276,6 @@ public class frmPacienteAPP extends javax.swing.JPanel {
     private javax.swing.JTextField txtEnfermedadAPP;
     private javax.swing.JTextField txtNombreAPP;
     private javax.swing.JTextField txtNumHisAPP;
-    private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtTelefonoAPP;
     // End of variables declaration//GEN-END:variables
 }

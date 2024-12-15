@@ -4,12 +4,53 @@
  */
 package GUI;
 
+import DAOAPP.ConexionAPP;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author allan
  */
 public class frmMedicoAPP extends javax.swing.JFrame {
 
+     public void InsertMedico(){
+         
+        ConexionAPP conn = new ConexionAPP ("examenparcialiii");
+        Connection con = null;
+        PreparedStatement ps = null;
+        String query = "INSERT INTO medicos (Name, Age, Direction, Phone, Experience, Specialty ) VALUES (?, ?, ?, ?, ? ,?)";
+        
+        try {
+            con = conn.getConexion();
+            ps = con.prepareStatement(query);
+            
+            ps.setString(1,txtNombreAPP.getText().trim());
+            ps.setString(2,txtEdadAPP.getText().trim());
+            ps.setString(3,txtDireccionAPP.getText().trim());
+            ps.setString(4,txtTelefonoAPP.getText().trim());
+            ps.setString(5,txtAniosExpAPP.getText().trim());
+            ps.setString(6,txtEspecialidadAPP.getText().trim());
+
+            
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null,"!Medico Agregado Exitosamente!.");
+            
+        } catch (SQLException e){
+            e.printStackTrace();
+        } finally {
+            try {
+                if (ps != null) ps.close();
+                if (con != null) con.close(); 
+            } catch (SQLException e){
+                e.printStackTrace();
+            }
+        }
+        
+        
+    }
     /**
      * Creates new form frmMedicoAPP
      */
@@ -37,7 +78,7 @@ public class frmMedicoAPP extends javax.swing.JFrame {
         txtNombreAPP = new javax.swing.JTextField();
         txtEdadAPP = new javax.swing.JTextField();
         txtDireccionAPP = new javax.swing.JTextField();
-        txtTelefono = new javax.swing.JTextField();
+        txtTelefonoAPP = new javax.swing.JTextField();
         txtAniosExpAPP = new javax.swing.JTextField();
         txtEspecialidadAPP = new javax.swing.JTextField();
         btnCancelarAPP = new javax.swing.JButton();
@@ -71,8 +112,18 @@ public class frmMedicoAPP extends javax.swing.JFrame {
         jLabel7.setText("Especialidad");
 
         btnCancelarAPP.setText("Cancelar");
+        btnCancelarAPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarAPPActionPerformed(evt);
+            }
+        });
 
         btnGuardarAPP.setText("Guardar");
+        btnGuardarAPP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarAPPActionPerformed(evt);
+            }
+        });
 
         btmMostrarAPP.setText("Mostrar");
 
@@ -99,7 +150,7 @@ public class frmMedicoAPP extends javax.swing.JFrame {
                                     .addComponent(txtNombreAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEdadAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtDireccionAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtTelefonoAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtAniosExpAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtEspecialidadAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -132,7 +183,7 @@ public class frmMedicoAPP extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTelefonoAPP, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -164,6 +215,16 @@ public class frmMedicoAPP extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnGuardarAPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarAPPActionPerformed
+        InsertMedico();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnGuardarAPPActionPerformed
+
+    private void btnCancelarAPPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarAPPActionPerformed
+        this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarAPPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -217,6 +278,6 @@ public class frmMedicoAPP extends javax.swing.JFrame {
     private javax.swing.JTextField txtEdadAPP;
     private javax.swing.JTextField txtEspecialidadAPP;
     private javax.swing.JTextField txtNombreAPP;
-    private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtTelefonoAPP;
     // End of variables declaration//GEN-END:variables
 }
